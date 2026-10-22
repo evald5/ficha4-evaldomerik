@@ -12,10 +12,15 @@ const cards = [
 function App() {
   const [filter, setFilter] = useState("Todas");
   const [search, setSearch] = useState("");
+  const [randomCard, setRandomCard] = useState(null);
 
   const visible = cards
     .filter((card) => filter === "Todas" || card.type === filter)
     .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()));
+
+  function pickRandom() {
+    setRandomCard(cards[Math.floor(Math.random() * cards.length)]);
+  }
 
   return (
     <main>
@@ -38,6 +43,15 @@ function App() {
           <Card key={card.name} {...card} />
         ))}
       </ul>
+
+      <h2>Carta à sorte</h2>
+      <button onClick={pickRandom}>Carta à sorte</button>
+      {randomCard && (
+        <p>
+          <b>{randomCard.name}</b> — {randomCard.type} · ataque {randomCard.attack} ·
+          defesa {randomCard.defense}
+        </p>
+      )}
     </main>
   );
 }
