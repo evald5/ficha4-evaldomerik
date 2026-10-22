@@ -11,10 +11,11 @@ const cards = [
 
 function App() {
   const [filter, setFilter] = useState("Todas");
+  const [search, setSearch] = useState("");
 
-  const visible = cards.filter(
-    (card) => filter === "Todas" || card.type === filter
-  );
+  const visible = cards
+    .filter((card) => filter === "Todas" || card.type === filter)
+    .filter((card) => card.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <main>
@@ -27,6 +28,11 @@ function App() {
         <button onClick={() => setFilter("Criatura")}>Só criaturas</button>
         <button onClick={() => setFilter("Feitiço")}>Só feitiços</button>
       </div>
+      <input
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Procurar pelo nome…"
+      />
       <ul>
         {visible.map((card) => (
           <Card key={card.name} {...card} />
